@@ -62,8 +62,7 @@ export const getNftPreview = async (address: string) => {
     const response = await fetchWithRetry(async () => {
         return axios.get(url.toString());
     });
-
-    return response.data.previews[response.data.previews.length - 1].url;
+    return { url: response.data.previews[response.data.previews.length - 1].url, name: response.data.metadata.name};
 };
 
 export const getJackpotInfo = async (address: string) => {
@@ -83,9 +82,10 @@ export const getJackpotInfo = async (address: string) => {
         goalPrice: result.stack.readBigNumber().toString(),
         totalBets: result.stack.readBigNumber().toString(),
         minBet: result.stack.readBigNumber().toString(),
-        nft: result.stack.readAddressOpt()?.toString(),
+        nft_address: result.stack.readAddressOpt()?.toString(),
         deadline: result.stack.readBigNumber().toString(),
-        nft_preview: ''
+        nft_preview: '',
+        nft_name: '',
     };
 
 

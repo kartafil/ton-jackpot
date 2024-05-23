@@ -1,4 +1,4 @@
-const mainnet = false;
+const mainnet = true;
 
 const JACKPOT_MASTER_CA = mainnet
     ? '0:7ede2525c0590719a1b8f13b43733ad66bafe971610b989681e16f6c570c16e3'

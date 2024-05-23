@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import { shortenAddress } from '@/utils';
 import { copyButton } from './svg/buttons';
+import Popup from './Popup'; // Import the Popup component
 
 dayjs.extend(relativeTime);
 
@@ -20,11 +21,16 @@ interface JackpotCardProps {
     goalPrice: string;
     totalBets: string;
     minBet: string;
-    nft: string;
-    nftName: string;  // New property for NFT name
+    nft_address: string;
+    nft_name: string;  // New property for NFT name
     deadline: string;
     nft_preview: string;
   };
+}
+
+type popupMessage = {
+  message: string;
+  isError: boolean;
 }
 
 const formatTON = (amount: string) => {
@@ -35,6 +41,7 @@ const formatTON = (amount: string) => {
 const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
   const [betAmount, setBetAmount] = useState(formatTON(jackpot.minBet.toString()));
   const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
+  const [popupMessage, setPopupMessage] = useState<popupMessage | null>(null); 
 
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
@@ -59,7 +66,12 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
         }
       ]
     };
-    const result = await tonConnectUI.sendTransaction(transaction);
+    try {
+      const result = await tonConnectUI.sendTransaction(transaction);
+      setPopupMessage({ message: 'Bet success!', isError: false });
+    } catch {
+      setPopupMessage({ message: 'Bet canceled', isError: true });
+    }
   };
 
   const progressPercentage = (totalBets: string, goalPrice: string) => {
@@ -84,9 +96,10 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
       className="group rounded-lg place-self-start border border-transparent p-5 transition-colors hover:border-gray-300 hover:bg-gray-100 dark:hover:border-neutral-700 dark:hover:bg-neutral-800/30 cursor-pointer w-80"
     >
       <h3 className="mb-3 text-xl text-teal-800 font-semibold">Lottery #{jackpot.id}</h3>
-      {jackpot.nft ? (
+      {jackpot.nft_address ? (
         <>
-          <img src={jackpot.nft_preview} alt='nft_image' className='w-full mb-5'></img>
+          <a href={`https://getgems.io/nft/${jackpot.nft_address}`} target="_blank" rel="noopener noreferrer"><img src={jackpot.nft_preview} alt='nft_image' className='w-full mb-1'></img></a>
+          <p className="m-0 mb-2 max-w-[30ch] text-xl opacity-70 truncate">{jackpot.nft_name}</p>
           <div className="relative mb-2">
             <a href={`https://tonviewer.com/${jackpot.address}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
               CA: {shortenAddress(jackpot.address)}
@@ -99,14 +112,14 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
             </button>
           </div>
           <div className="relative mb-2">
-            <a href={`https://tonviewer.com/${jackpot.nft}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
-              NFT: {shortenAddress(jackpot.nft)}
+            <a href={`https://getgems.io/nft/${jackpot.nft_address}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
+              NFT: {shortenAddress(jackpot.nft_address)}
             </a>
             <button
-              onClick={() => handleCopy(jackpot.nft)}
+              onClick={() => handleCopy(jackpot.nft_address)}
               className="copy-button"
             >
-              {copiedAddress === jackpot.nft ? '✔' : copyButton}
+              {copiedAddress === jackpot.nft_address ? '✔' : copyButton}
             </button>
           </div>
           <div className="relative mb-2">
@@ -120,7 +133,6 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
               {copiedAddress === jackpot.creator ? '✔' : copyButton}
             </button>
           </div>
-          <p className="m-0 max-w-[30ch] text-sm opacity-70 truncate">NFT Name: {jackpot.nftName}</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Goal: {formatTON(jackpot.goalPrice)} TON</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Total bets: {formatTON(jackpot.totalBets)} TON</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet: {formatTON(jackpot.minBet)} TON</p>
@@ -175,8 +187,9 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
           min={formatTON(jackpot.minBet)}
           className="border border-gray-300 p-2 rounded w-full"
         />
-        <button onClick={handleBetSubmit} className="mt-2 bg-gray-900 text-white p-2 w-full rounded">Bet</button>
+        <button onClick={handleBetSubmit} className="mt-2 bg-cyan-700 text-white p-2 w-full rounded">Bet</button>
       </div>)}
+      {popupMessage && <Popup isError={popupMessage.isError} message={popupMessage.message} onClose={() => setPopupMessage(null)} />}
     </div>
   );
 };

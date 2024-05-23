@@ -21,8 +21,10 @@ const JackpotGrid = () => {
 
       for (const address of addresses) {
         const jackpot = await getJackpotInfo(address);
-        if (jackpot.nft) {
-          jackpot.nft_preview = await getNftPreview(jackpot.nft);
+        if (jackpot.nft_address) {
+          const nft_info = await getNftPreview(jackpot.nft_address);
+          jackpot.nft_preview = nft_info.url;
+          jackpot.nft_name = nft_info.name;
         }
         setJackpots(prev => [...prev, jackpot]);
       }
