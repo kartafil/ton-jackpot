@@ -17,6 +17,12 @@
   }
 }
 
+@media (hover: none) {
+  .copy-button {
+    display: inline !important;
+  }
+}
+
 body {
   color: rgb(2 44 34);
   background: linear-gradient(
@@ -67,5 +73,30 @@ body {
 
   .main-content {
     margin-top: 4rem; /* Adjust based on the height of your header */
+  }
+
+  .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .blur-text {
+    position: relative;
+  }
+
+  .copy-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    backdrop-filter: blur(2px);
+    border: none;
+    padding: 2px 5px;
+    cursor: pointer;
+    display: none;
+  }
+
+  .relative:hover .copy-button {
+    display: inline;
   }
 }

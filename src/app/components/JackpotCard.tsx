@@ -6,6 +6,7 @@ import { Cell, beginCell, toNano } from 'ton';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import dayjs from 'dayjs';
 import { shortenAddress } from '@/utils';
+import { copyButton } from './svg/buttons';
 
 dayjs.extend(relativeTime);
 
@@ -20,6 +21,7 @@ interface JackpotCardProps {
     totalBets: string;
     minBet: string;
     nft: string;
+    nftName: string;  // New property for NFT name
     deadline: string;
     nft_preview: string;
   };
@@ -32,6 +34,7 @@ const formatTON = (amount: string) => {
 
 const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
   const [betAmount, setBetAmount] = useState(formatTON(jackpot.minBet.toString()));
+  const [copiedAddress, setCopiedAddress] = useState<string | null>(null);
 
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
@@ -65,6 +68,15 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
     return total >= goal ? 100 : (total / goal) * 100;
   };
 
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopiedAddress(text);
+      setTimeout(() => {
+        setCopiedAddress(null);
+      }, 1000);
+    });
+  };
+
   const progressBarColor = jackpot.isFinished ? 'bg-emerald-700' : 'bg-cyan-600';
 
   return (
@@ -75,15 +87,40 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
       {jackpot.nft ? (
         <>
           <img src={jackpot.nft_preview} alt='nft_image' className='w-full mb-5'></img>
-          <a href={`https://tonviewer.com/${jackpot.address}`} target="_blank" rel="noopener noreferrer" className="block mb-2 text-sm text-blue-500">
-            CA: {shortenAddress(jackpot.address)}
-          </a>
-          <a href={`https://tonviewer.com/${jackpot.nft}`} target="_blank" rel="noopener noreferrer" className="block mb-2 text-sm text-blue-500">
-            NFT: {jackpot.nft ? shortenAddress(jackpot.nft) : 'N/A'}
-          </a>
-          <a href={`https://tonviewer.com/${jackpot.creator}`} target="_blank" rel="noopener noreferrer" className="block mb-2 text-sm text-blue-500">
-            Creator: {jackpot.creator ? shortenAddress(jackpot.creator) : 'N/A'}
-          </a>
+          <div className="relative mb-2">
+            <a href={`https://tonviewer.com/${jackpot.address}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
+              CA: {shortenAddress(jackpot.address)}
+            </a>
+            <button
+              onClick={() => handleCopy(jackpot.address)}
+              className="copy-button"
+            >
+              {copiedAddress === jackpot.address ? '✔' : copyButton}
+            </button>
+          </div>
+          <div className="relative mb-2">
+            <a href={`https://tonviewer.com/${jackpot.nft}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
+              NFT: {shortenAddress(jackpot.nft)}
+            </a>
+            <button
+              onClick={() => handleCopy(jackpot.nft)}
+              className="copy-button"
+            >
+              {copiedAddress === jackpot.nft ? '✔' : copyButton}
+            </button>
+          </div>
+          <div className="relative mb-2">
+            <a href={`https://tonviewer.com/${jackpot.creator}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
+              Creator: {shortenAddress(jackpot.creator)}
+            </a>
+            <button
+              onClick={() => handleCopy(jackpot.creator)}
+              className="copy-button"
+            >
+              {copiedAddress === jackpot.creator ? '✔' : copyButton}
+            </button>
+          </div>
+          <p className="m-0 max-w-[30ch] text-sm opacity-70 truncate">NFT Name: {jackpot.nftName}</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Goal: {formatTON(jackpot.goalPrice)} TON</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Total bets: {formatTON(jackpot.totalBets)} TON</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet: {formatTON(jackpot.minBet)} TON</p>
@@ -99,12 +136,28 @@ const JackpotCard: React.FC<JackpotCardProps> = ({ jackpot }) => {
         </>
       ) : (
         <>
-          <a href={`https://tonviewer.com/${jackpot.address}`} target="_blank" rel="noopener noreferrer" className="block mb-2 text-sm text-blue-500">
-            CA: {shortenAddress(jackpot.address)}
-          </a>
-          <a href={`https://tonviewer.com/${jackpot.creator}`} target="_blank" rel="noopener noreferrer" className="block mb-2 text-sm text-blue-500">
-            Creator: {jackpot.creator ? shortenAddress(jackpot.creator) : 'N/A'}
-          </a>
+          <div className="relative mb-2">
+            <a href={`https://tonviewer.com/${jackpot.address}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
+              CA: {shortenAddress(jackpot.address)}
+            </a>
+            <button
+              onClick={() => handleCopy(jackpot.address)}
+              className="copy-button"
+            >
+              {copiedAddress === jackpot.address ? '✔' : copyButton}
+            </button>
+          </div>
+          <div className="relative mb-2">
+            <a href={`https://tonviewer.com/${jackpot.creator}`} target="_blank" rel="noopener noreferrer" className="block text-sm text-blue-500 blur-text">
+              Creator: {shortenAddress(jackpot.creator)}
+            </a>
+            <button
+              onClick={() => handleCopy(jackpot.creator)}
+              className="copy-button"
+            >
+              {copiedAddress === jackpot.creator ? '✔' : copyButton}
+            </button>
+          </div>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Goal Price: {formatTON(jackpot.goalPrice)} TON</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Minimum Bet: {formatTON(jackpot.minBet)} TON</p>
         </>
