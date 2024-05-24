@@ -2,12 +2,13 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import LotteryCard from './LotteryCard';
-import { getLotteryContractAddresses, getLotteryInfo, getNftPreview } from '../../services/tonClientService';
+import { getLotteryContractAddresses, getLotteryInfo, getNftPreview, getLocalLotteryInfo } from '../../services/tonClientService';
 
 const LotteryGrid = () => {
   const [lotteries, setLotteries] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [isLocalLoaded, setLocalLoaded] = useState(false);
   const [loadedCount, setLoadedCount] = useState<number>(0);
 
   const LOAD_STEP = 10;
@@ -21,17 +22,33 @@ const LotteryGrid = () => {
     try {
       const addresses = await getLotteryContractAddresses(LOAD_STEP);
 
-      for (const address of addresses) {
-        const lottery = await getLotteryInfo(address);
-        if (lottery.nft_address) {
-          const nft_info = await getNftPreview(lottery.nft_address);
-          lottery.nft_preview = nft_info.url;
-          lottery.nft_name = nft_info.name;
-        }
-        setLotteries(prev => [...prev, lottery]);
-      }
+      if (addresses.length > 0) {
+        const newLotteries = [];
 
-      setLoadedCount(prev => prev + addresses.length);
+        for (const address of addresses) {
+          const lottery = await getLotteryInfo(address);
+          if (lottery.nft_address) {
+            const nft_info = await getNftPreview(lottery.nft_address);
+            lottery.nft_preview = nft_info.url;
+            lottery.nft_name = nft_info.name;
+          }
+          newLotteries.push(lottery);
+        }
+
+        setLotteries(prev => [...prev, ...newLotteries]);
+        setLoadedCount(prev => prev + newLotteries.length);
+
+        if (newLotteries.length < 3) {
+          const localLotteries = await getLocalLotteryInfo();
+          setLotteries(prev => [...prev, ...localLotteries]);
+          setLoadedCount(prev => prev + localLotteries.length);
+        }
+      } else if (!isLocalLoaded) {
+        setLocalLoaded(true);
+        const localLotteries = await getLocalLotteryInfo();
+        setLotteries(prev => [...prev, ...localLotteries]);
+        setLoadedCount(prev => prev + localLotteries.length);
+      }
     } catch (error) {
       console.error('Error fetching lotteries:', error);
       setError('Error fetching lotteries');
@@ -58,13 +75,13 @@ const LotteryGrid = () => {
           <LotteryCard key={index} lottery={lottery} />
         ))}
       </div>
-      <button
+      { isLocalLoaded && <button
         onClick={loadMoreLotteries}
         disabled={loading}
         className="mt-4 bg-emerald-400 w-full text-white px-4 py-2 rounded"
       >
         {loading ? 'Loading...' : 'Load more'}
-      </button>
+      </button>}
     </div>
   );
 };

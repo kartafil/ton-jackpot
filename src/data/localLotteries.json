@@ -1,0 +1,50 @@
+[
+    {
+        "address": "EQDQfHncZNKx_t94Aq9fCGVzizDiqWHXhu0RJjV-hP0NgzCO",
+        "id": "0.2",
+        "isFinished": true,
+        "isRefunded" : false,
+        "creator": "EQC1NmDnGpzILcUXGGY0w2bSwrKUxS6S_F_neQMpPfayHwce",
+        "winner": "EQAyANyzbVkB9KxVH5BnTqaa0_v6acvtU5jPQSYKi-WEbGPz",
+        "goalPrice": "63000000000",
+        "totalBets": "63000000000",
+        "minBet": "1000000000",
+        "nft_address": "EQDaerxZJpD0iHnoxyw37c8BFibCCprnH_dP8PIylX3uJXpj",
+        "nft_name" : "ID 476 / - without a name - / Rarity 4 / Grade 0 / KORRTESS / WOMAN / Power 88 / Agility 84 / Stamina 32 / Intelligence 50 / Charisma 53 / Luck 54 / Names 0",
+        "deadline": "1716575352",
+        "duration": "",
+        "nft_preview": "https://cache.tonapi.io/imgproxy/FEat_IOh0DhO7PlhfjcfmFZsVEX_yqcNBwlutKy-YXk/rs:fill:1500:1500:1/g:no/aHR0cHM6Ly9hcnJha2tlbi54eXovaW1hZ2VzLzQ3Ni5qcGc.webp"
+    },
+    {
+        "address": "EQDrkbPrd2S5YSdXJaZvnMVxDIG6XTCr2bZjLMn2_wyI4tIp",
+        "id": "0.1",
+        "isFinished": true,
+        "isRefunded" : false,
+        "creator": "EQC1NmDnGpzILcUXGGY0w2bSwrKUxS6S_F_neQMpPfayHwce",
+        "winner": "EQCi49NtqN9j0k8xciv0TzX8MR2NC6I7G1ABdzVMdLrpRDCp",
+        "goalPrice": "60000000000",
+        "totalBets": "60000000000",
+        "minBet": "1000000000",
+        "nft_address": "EQCMsIJpAitRLE_MmoegHz6UxpAoZrTPcmVtTciSAhpBAPCV",
+        "nft_name" : "ID 818 / Iosefka / Rarity 4 / Grade 1 / HDRONNENS / WOMAN / Power 89 / Agility 69 / Stamina 56 / Intelligence 62 / Charisma 57 / Luck 40 / Names 1",
+        "deadline": "1716574932",
+        "duration": "",
+        "nft_preview": "https://cache.tonapi.io/imgproxy/EFJq1opegdMZIb-mwBhtmHolUpizEyNjJVo60znomQA/rs:fill:1500:1500:1/g:no/aHR0cHM6Ly9hcnJha2tlbi54eXovaW1hZ2VzLzgxOC5qcGc.webp"
+    },
+    {
+        "address": "EQDJ_77jsq3-TMcdJMUZoU3h0h2UbvEM8yOtkwBL319DSAQv",
+        "id": "0.0",
+        "isFinished": true,
+        "isRefunded" : false,
+        "creator": "EQC1NmDnGpzILcUXGGY0w2bSwrKUxS6S_F_neQMpPfayHwce",
+        "winner": "EQDU6VTwZnCspEjQ9IPOsm5nO_GeACWFAOnvmjY44fx0aka5",
+        "goalPrice": "1000000000",
+        "totalBets": "1000000000",
+        "minBet": "200000000",
+        "nft_address": "EQBrec1Kcu36J7LygJ-7C73OU6R_m_vpwlPz_sPI_NWvUVMo",
+        "nft_name" : "Young Explorer #32938",
+        "deadline": "1716414890",
+        "duration": "",
+        "nft_preview": "https://cache.tonapi.io/imgproxy/wu8xOMarLeMfUbKjfCsHbtjwtw35GTB6vGnvNf9GnCk/rs:fill:1500:1500:1/g:no/aHR0cHM6Ly9zLmdldGdlbXMuaW8vbmZ0L2IvYy82NWQ3NTc5YTM2ZDJiODIzMzMzNmI2YjEvaW1hZ2VzLzk3ZTAwODAzOWVjNWU1ZjVlNThkZDVmYjExZWRiZjI2NTk4YmM5NDYucG5n.webp"
+    }
+]

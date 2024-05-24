@@ -24,6 +24,7 @@ interface LotteryCardProps {
     minBet: string;
     nft_address: string;
     nft_name: string;
+    duration: string;
     deadline: string;
     nft_preview: string;
   };
@@ -126,11 +127,14 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet: {formatTON(lottery.minBet)} TON</p>
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Total bets: {formatTON(lottery.totalBets)} TON</p>
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Goal: {formatTON(lottery.goalPrice)} TON</p>
-      <p className="m-0 max-w-[30ch] text-sm opacity-70">Ends in: {dayjs.unix(parseInt(lottery.deadline, 10)).fromNow(true)}</p>
+      {isAvailable
+        ?<p className="m-0 max-w-[30ch] text-sm opacity-70">Ends in: {dayjs.unix(parseInt(lottery.deadline, 10)).fromNow(true)}</p>
+        : !lottery.nft_address && <p className="m-0 max-w-[30ch] text-sm opacity-70">Duration: {(+lottery.duration / 3600).toFixed(2) + ' h.'}</p>
+      }
       <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3 dark:bg-gray-700">
         <div className={`h-2.5 rounded-full ${progressBarColor}`} style={{ width: `${progressPercentage(lottery.totalBets, lottery.goalPrice)}%` }}></div>
       </div>
-      {isAvailable ? (
+      {isAvailable && (
         <div className="mt-4">
           <label htmlFor={`bet-${lottery.id}`} className="block mb-2">Enter your bet:</label>
           <input
@@ -143,9 +147,8 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
           />
           <button onClick={handleBetSubmit} className="mt-2 bg-cyan-700 text-white p-2 w-full rounded">Bet</button>
         </div>
-      ) : (
-        <div className="ml-0 max-w-[30ch] text-sm opacity-70">FINISHED</div>
       )}
+      {(lottery.isFinished || lottery.isRefunded) && <div className="ml-0 max-w-[30ch] text-sm opacity-70">{lottery.isFinished ? 'FINISHED' : 'REFUNDED'}</div>}
       {popupMessage && <Popup isError={popupMessage.isError} message={popupMessage.message} onClose={() => setPopupMessage(null)} />}
     </div>
   );

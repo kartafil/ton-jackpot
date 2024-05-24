@@ -1,6 +1,9 @@
+// src/services/tonClientService.ts
+
 import { TonClient, Address } from 'ton';
 import { LOTTERY_MASTER_CA, CREATE_LOTTERY_OP, TON_API_URL_ACCOUNTS, TON_API_URL_NFTS, TON_CLIENT_URL } from '@/const';
 import axios from 'axios';
+import localLotteries from '../data/localLotteries.json'; // Import the local JSON file
 
 const client = new TonClient({
     endpoint: TON_CLIENT_URL
@@ -88,6 +91,9 @@ export const getLotteryInfo = async (address: string) => {
         nft_name: '',
     };
 
-
     return lottery;
+};
+
+export const getLocalLotteryInfo = async () => {
+    return localLotteries;
 };
