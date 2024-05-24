@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useTonWallet, useTonConnectUI } from '@tonconnect/ui-react';
 import { Address, Cell, beginCell, toNano } from 'ton';
-import { JACKPOT_MASTER_CA } from '@/const';
+import { LOTTERY_MASTER_CA, CREATE_LOTTERY_OP } from '@/const';
 
-const JackpotForm = () => {
+const LotteryForm = () => {
   const [minimalBet, setMinimalBet] = useState(0.2);
   const [targetTotalBet, setTargetTotalBet] = useState(1);
-  const [jackpotDuration, setJackpotDuration] = useState(4);
+  const [lotteryDuration, setLotteryDuration] = useState(4);
   const [durationUnit, setDurationUnit] = useState("hours");
   const [contractAddress, setContractAddress] = useState("");
   const [nftAddress, setNftAddress] = useState("");
@@ -14,7 +14,7 @@ const JackpotForm = () => {
   const wallet = useTonWallet();
   const [tonConnectUI] = useTonConnectUI();
 
-  const handleCreateJackpot = async (e: React.FormEvent) => {
+  const handleCreateLottery = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!wallet) {
@@ -22,12 +22,12 @@ const JackpotForm = () => {
       return;
     }
 
-    sendCreateJackPot();
+    sendCreateLottery();
   };
 
-  const sendCreateJackPot = async () => {
+  const sendCreateLottery = async () => {
     try {
-      let durationInSeconds = jackpotDuration;
+      let durationInSeconds = lotteryDuration;
       if (durationUnit === "hours") {
         durationInSeconds *= 3600;
       } else if (durationUnit === "days") {
@@ -35,7 +35,7 @@ const JackpotForm = () => {
       }
 
       const message = beginCell()
-        .storeUint(0x2d98c896, 32)
+        .storeUint(CREATE_LOTTERY_OP, 32)
         .storeUint(0, 64)
         .storeAddress(null)
         .storeCoins(toNano(targetTotalBet.toString()))
@@ -47,7 +47,7 @@ const JackpotForm = () => {
         validUntil: Math.floor(Date.now() / 1000) + 60,
         messages: [
           {
-            address: JACKPOT_MASTER_CA,
+            address: LOTTERY_MASTER_CA,
             amount: toNano('0.15').toString(),
             payload: message.toBoc().toString('base64')
           }
@@ -63,13 +63,13 @@ const JackpotForm = () => {
     }
   };
 
-  const handleStartJackpot = (e: React.FormEvent) => {
+  const handleStartLottery = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Starting jackpot with contract address:", contractAddress, "and NFT address:", nftAddress);
-    sendNftToJackPot();
+    console.log("Starting lottery with contract address:", contractAddress, "and NFT address:", nftAddress);
+    sendNftToLottery();
   };
 
-  const sendNftToJackPot = async () => {
+  const sendNftToLottery = async () => {
     try {
       const message = beginCell()
         .storeUint(0x5fcc3d14, 32)
@@ -103,10 +103,10 @@ const JackpotForm = () => {
 
   return (
     <div className="mt-8 mb-5 w-full max-w-5xl p-6 bg-cyan-100 rounded-lg dark:bg-gray-800">
-      <h2 className="text-3xl font-semibold mb-4">Create a New Jackpot</h2>
-      <form onSubmit={handleCreateJackpot} className="space-y-8">
+      <h2 className="text-3xl font-semibold mb-4">Create a New Lottery</h2>
+      <form onSubmit={handleCreateLottery} className="space-y-8">
         <fieldset className="space-y-4">
-          <legend className="text-xl font-semibold">1. Create JackPot Contract</legend>
+          <legend className="text-xl font-semibold">1. Create Lottery Contract</legend>
           <div className="flex flex-col">
             <label htmlFor="targetTotalBet" className="mb-2">Target Total Bet Amount:</label>
             <input
@@ -132,13 +132,13 @@ const JackpotForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="jackpotDuration" className="mb-2">Jackpot Duration:</label>
+            <label htmlFor="lotteryDuration" className="mb-2">Lottery Duration:</label>
             <input
               type="number"
-              id="jackpotDuration"
+              id="lotteryDuration"
               className="border border-gray-300 p-2 rounded"
-              value={jackpotDuration}
-              onChange={(e) => setJackpotDuration(Number(e.target.value))}
+              value={lotteryDuration}
+              onChange={(e) => setLotteryDuration(Number(e.target.value))}
               min={durationUnit === "hours" ? 4 : 1} max={durationUnit === "hours" ? 168 : 7}
             />
             <div className="flex items-center mt-2 space-x-4">
@@ -165,15 +165,15 @@ const JackpotForm = () => {
             </div>
           </div>
           <button type="submit" className="mt-4 bg-cyan-500 text-white px-4 py-2 rounded">
-            Create Jackpot
+            Create Lottery
           </button>
         </fieldset>
       </form>
-      <form onSubmit={handleStartJackpot} className="mt-8 space-y-8">
+      <form onSubmit={handleStartLottery} className="mt-8 space-y-8">
         <fieldset className="space-y-4">
-          <legend className="text-xl font-semibold">2. Start JackPot</legend>
+          <legend className="text-xl font-semibold">2. Start Lottery</legend>
           <div className="flex flex-col">
-            <label htmlFor="contractAddress" className="mb-2">JackPot CA:</label>
+            <label htmlFor="contractAddress" className="mb-2">Lottery CA:</label>
             <input
               type="text"
               id="contractAddress"
@@ -193,7 +193,7 @@ const JackpotForm = () => {
             />
           </div>
           <button type="submit" className="mt-4 bg-cyan-500 text-white px-4 py-2 rounded">
-            Start Jackpot
+            Start Lottery
           </button>
         </fieldset>
       </form>
@@ -201,4 +201,4 @@ const JackpotForm = () => {
   );
 };
 
-export default JackpotForm;
+export default LotteryForm;

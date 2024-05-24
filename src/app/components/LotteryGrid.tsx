@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
-import JackpotCard from './JackpotCard';
-import { getJackPotContractAddresses, getJackpotInfo, getNftPreview } from '../../services/tonClientService';
+// src/components/LotteryGrid.tsx
 
-const JackpotGrid = () => {
-  const [jackpots, setJackpots] = useState<any[]>([]);
+import React, { useEffect, useState, useRef } from 'react';
+import LotteryCard from './LotteryCard';
+import { getLotteryContractAddresses, getLotteryInfo, getNftPreview } from '../../services/tonClientService';
+
+const LotteryGrid = () => {
+  const [lotteries, setLotteries] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadedCount, setLoadedCount] = useState<number>(0);
@@ -11,28 +13,28 @@ const JackpotGrid = () => {
   const LOAD_STEP = 10;
   const isFetching = useRef<boolean>(false); // Ref to track fetching state
 
-  const loadMoreJackpots = async () => {
+  const loadMoreLotteries = async () => {
     if (loading || isFetching.current) return; // Prevent multiple calls
     setLoading(true);
     isFetching.current = true; // Set fetching state
 
     try {
-      const addresses = await getJackPotContractAddresses(LOAD_STEP);
+      const addresses = await getLotteryContractAddresses(LOAD_STEP);
 
       for (const address of addresses) {
-        const jackpot = await getJackpotInfo(address);
-        if (jackpot.nft_address) {
-          const nft_info = await getNftPreview(jackpot.nft_address);
-          jackpot.nft_preview = nft_info.url;
-          jackpot.nft_name = nft_info.name;
+        const lottery = await getLotteryInfo(address);
+        if (lottery.nft_address) {
+          const nft_info = await getNftPreview(lottery.nft_address);
+          lottery.nft_preview = nft_info.url;
+          lottery.nft_name = nft_info.name;
         }
-        setJackpots(prev => [...prev, jackpot]);
+        setLotteries(prev => [...prev, lottery]);
       }
 
       setLoadedCount(prev => prev + addresses.length);
     } catch (error) {
-      console.error('Error fetching jackpots:', error);
-      setError('Error fetching jackpots');
+      console.error('Error fetching lotteries:', error);
+      setError('Error fetching lotteries');
     } finally {
       setLoading(false);
       isFetching.current = false; // Reset fetching state
@@ -40,8 +42,8 @@ const JackpotGrid = () => {
   };
 
   useEffect(() => {
-    if (jackpots.length === 0) {
-      loadMoreJackpots();
+    if (lotteries.length === 0) {
+      loadMoreLotteries();
     }
   }, []); // Only run on mount
 
@@ -52,12 +54,12 @@ const JackpotGrid = () => {
   return (
     <div className="w-full">
       <div className="jackpot-grid mt-8">
-        {jackpots.map((jackpot, index) => (
-          <JackpotCard key={index} jackpot={jackpot} />
+        {lotteries.map((lottery, index) => (
+          <LotteryCard key={index} lottery={lottery} />
         ))}
       </div>
       <button
-        onClick={loadMoreJackpots}
+        onClick={loadMoreLotteries}
         disabled={loading}
         className="mt-4 bg-emerald-400 w-full text-white px-4 py-2 rounded"
       >
@@ -67,4 +69,4 @@ const JackpotGrid = () => {
   );
 };
 
-export default JackpotGrid;
+export default LotteryGrid;

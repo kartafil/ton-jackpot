@@ -2,8 +2,8 @@
 
 import Header from './components/Header';
 import Search from './components/Search';
-import JackpotGrid from './components/JackpotGrid';
-import JackpotForm from './components/JackpotForm';
+import LotteryGrid from './components/LotteryGrid';
+import LotteryForm from './components/LotteryForm';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -16,9 +16,9 @@ export default function Home() {
             <h2 className="text-4xl text-emerald-500 font-semibold mb-4 lg:mb-0">NFT Lotteries:</h2>
             <Search />
           </div>
-          <JackpotGrid />
+          <LotteryGrid />
         </div>
-        <JackpotForm />
+        <LotteryForm />
       </main>
         <Footer />
     </>
