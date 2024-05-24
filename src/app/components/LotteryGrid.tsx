@@ -23,7 +23,7 @@ const LotteryGrid = () => {
       const addresses = await getLotteryContractAddresses(LOAD_STEP);
 
       if (addresses.length > 0) {
-        const newLotteries = [];
+        const newLotteries = [] as any;
 
         for (const address of addresses) {
           const lottery = await getLotteryInfo(address);
