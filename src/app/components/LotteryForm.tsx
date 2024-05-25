@@ -112,7 +112,7 @@ const LotteryForm = () => {
             <input
               type="number"
               id="targetTotalBet"
-              className="border border-gray-300 p-2 rounded"
+              className="border border-gray-300 p-2 rounded text-black"
               value={targetTotalBet}
               onChange={(e) => setTargetTotalBet(Number(e.target.value))}
               min="1"
@@ -124,7 +124,7 @@ const LotteryForm = () => {
             <input
               type="number"
               id="minimalBet"
-              className="border border-gray-300 p-2 rounded"
+              className="border border-gray-300 p-2 rounded text-black"
               value={minimalBet}
               onChange={(e) => setMinimalBet(Number(e.target.value))}
               min="0.2"
@@ -136,7 +136,7 @@ const LotteryForm = () => {
             <input
               type="number"
               id="lotteryDuration"
-              className="border border-gray-300 p-2 rounded"
+              className="border border-gray-300 p-2 rounded text-black"
               value={lotteryDuration}
               onChange={(e) => setLotteryDuration(Number(e.target.value))}
               min={durationUnit === "hours" ? 4 : 1} max={durationUnit === "hours" ? 168 : 7}
@@ -177,7 +177,7 @@ const LotteryForm = () => {
             <input
               type="text"
               id="contractAddress"
-              className="border border-gray-300 p-2 rounded"
+              className="border border-gray-300 p-2 rounded text-black"
               value={contractAddress}
               onChange={(e) => setContractAddress(e.target.value)}
             />
@@ -187,8 +187,8 @@ const LotteryForm = () => {
             <input
               type="text"
               id="nftAddress"
-              className="border border-gray-300 p-2 rounded"
-              value={nftAddress}
+              className="border border-gray-300 p-2 rounded text-black"
+              value={nftAddress} 
               onChange={(e) => setNftAddress(e.target.value)}
             />
           </div>
