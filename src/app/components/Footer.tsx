@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const Footer = () => {
   return (
-    <div className="bottom-0 left-0 flex h-48 w-full items-end justify-center bg-teal-900">
+    <div className="bottom-0 left-0 flex h-48 w-full items-end justify-center bg-zinc-800">
       Telegram: @exercitusromanus
     </div>
   );

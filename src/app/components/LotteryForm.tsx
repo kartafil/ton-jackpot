@@ -78,7 +78,7 @@ const LotteryForm = () => {
         .storeAddress(Address.parse(wallet?.account.address!))
         .storeMaybeRef(null)
         .storeCoins(toNano('0.01'))
-        .storeSlice(Cell.EMPTY.beginParse())
+        .storeStringTail('Launch Lottery')
         .endCell();
 
       const transaction = {
@@ -102,13 +102,13 @@ const LotteryForm = () => {
   };
 
   return (
-    <div className="mt-8 mb-5 w-full max-w-5xl p-6 bg-cyan-100 rounded-lg dark:bg-gray-800">
-      <h2 className="text-3xl font-semibold mb-4">Create a New Lottery</h2>
+    <div className="mt-8 mb-5 w-full max-w-5xl p-6 bg-zinc-800 rounded-lg text-white">
+      <h2 className="text-3xl font-semibold mb-4">Создать новую лотерею:</h2>
       <form onSubmit={handleCreateLottery} className="space-y-8">
         <fieldset className="space-y-4">
-          <legend className="text-xl font-semibold">1. Create Lottery Contract</legend>
+          <legend className="text-xl font-semibold">1. Создайте контракт лотереи</legend>
           <div className="flex flex-col">
-            <label htmlFor="targetTotalBet" className="mb-2">Target Total Bet Amount:</label>
+            <label htmlFor="targetTotalBet" className="mb-2">Цель по ставкам:</label>
             <input
               type="number"
               id="targetTotalBet"
@@ -120,7 +120,7 @@ const LotteryForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="minimalBet" className="mb-2">Minimal Bet Amount:</label>
+            <label htmlFor="minimalBet" className="mb-2">Минимальная ставка:</label>
             <input
               type="number"
               id="minimalBet"
@@ -132,7 +132,7 @@ const LotteryForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="lotteryDuration" className="mb-2">Lottery Duration:</label>
+            <label htmlFor="lotteryDuration" className="mb-2">Продолжительность лотереи:</label>
             <input
               type="number"
               id="lotteryDuration"
@@ -150,7 +150,7 @@ const LotteryForm = () => {
                   checked={durationUnit === "hours"}
                   onChange={(e) => setDurationUnit(e.target.value)}
                 />
-                Hours
+                Часы
               </label>
               <label>
                 <input
@@ -160,20 +160,20 @@ const LotteryForm = () => {
                   checked={durationUnit === "days"}
                   onChange={(e) => setDurationUnit(e.target.value)}
                 />
-                Days
+                Дни
               </label>
             </div>
           </div>
-          <button type="submit" className="mt-4 bg-cyan-500 text-white px-4 py-2 rounded">
-            Create Lottery
+          <button type="submit" className="mt-4 bg-cyan-800 text-white px-4 py-2 rounded">
+            Создать Лотерею
           </button>
         </fieldset>
       </form>
       <form onSubmit={handleStartLottery} className="mt-8 space-y-8">
         <fieldset className="space-y-4">
-          <legend className="text-xl font-semibold">2. Start Lottery</legend>
+          <legend className="text-xl font-semibold">2. Запустите лотерею, отправив на нее NFT</legend>
           <div className="flex flex-col">
-            <label htmlFor="contractAddress" className="mb-2">Lottery CA:</label>
+            <label htmlFor="contractAddress" className="mb-2">Адрес контракта лотереи:</label>
             <input
               type="text"
               id="contractAddress"
@@ -183,7 +183,7 @@ const LotteryForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="nftAddress" className="mb-2">NFT CA:</label>
+            <label htmlFor="nftAddress" className="mb-2">Адрес NFT, которое будет разыграно:</label>
             <input
               type="text"
               id="nftAddress"
@@ -192,8 +192,8 @@ const LotteryForm = () => {
               onChange={(e) => setNftAddress(e.target.value)}
             />
           </div>
-          <button type="submit" className="mt-4 bg-cyan-500 text-white px-4 py-2 rounded">
-            Start Lottery
+          <button type="submit" className="mt-4 bg-cyan-800 text-white px-4 py-2 rounded">
+            Запустить лотерею
           </button>
         </fieldset>
       </form>

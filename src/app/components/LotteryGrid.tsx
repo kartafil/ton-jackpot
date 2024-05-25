@@ -75,7 +75,7 @@ const LotteryGrid = () => {
           <LotteryCard key={index} lottery={lottery} />
         ))}
       </div>
-      { isLocalLoaded && <button
+      { !isLocalLoaded && <button
         onClick={loadMoreLotteries}
         disabled={loading}
         className="mt-4 bg-emerald-400 w-full text-white px-4 py-2 rounded"

@@ -25,7 +25,7 @@ const Search = () => {
           value={searchQuery} 
           onChange={(e) => setSearchQuery(e.target.value)} 
         />
-        <button type="submit" className="ml-2 bg-emerald-400 text-white px-4 py-2 rounded">
+        <button type="submit" className="ml-2 bg-zinc-400 text-white px-4 py-2 rounded">
           Search
         </button>
       </form>

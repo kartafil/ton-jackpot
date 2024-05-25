@@ -22,11 +22,11 @@ const ConnectButton = () => {
   return (
     <div>
       {wallet ? (
-        <button onClick={handleDisconnect} className="bg-red-500 text-white px-4 py-2 rounded">
+        <button onClick={handleDisconnect} className="bg-zinc-500 text-white px-4 py-2 rounded">
           Disconnect ({shortenAddress(Address.parse(wallet.account.address).toString())})
         </button>
       ) : (
-        <button onClick={handleConnect} className="bg-emerald-500 text-white px-4 py-2 rounded">
+        <button onClick={handleConnect} className="bg-zinc-500 text-white px-4 py-2 rounded">
           Connect Wallet
         </button>
       )}

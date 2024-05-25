@@ -120,10 +120,10 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
           <p className="m-0 mb-2 max-w-[30ch] text-xl opacity-70 truncate">{lottery.nft_name || 'N/A'}</p>
         </>
       )}
-      {renderAddress('CA', lottery.address, `https://tonviewer.com/${lottery.address}`)}
-      {isAvailable && renderAddress('NFT', lottery.nft_address, `https://getgems.io/nft/${lottery.nft_address || 'N/A'}`)}
+      {renderAddress('Lottery', lottery.address, `https://tonviewer.com/${lottery.address}`)}
+      {lottery.nft_address && renderAddress('NFT', lottery.nft_address, `https://getgems.io/nft/${lottery.nft_address || 'N/A'}`)}
       {renderAddress('Creator', lottery.creator, `https://tonviewer.com/${lottery.creator}`)}
-      {isAvailable && renderAddress('Winner', lottery.winner, `https://tonviewer.com/${lottery.winner || ''}`)}
+      {lottery.winner && renderAddress('Winner', lottery.winner, `https://tonviewer.com/${lottery.winner || ''}`)}
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet: {formatTON(lottery.minBet)} TON</p>
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Total bets: {formatTON(lottery.totalBets)} TON</p>
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Goal: {formatTON(lottery.goalPrice)} TON</p>

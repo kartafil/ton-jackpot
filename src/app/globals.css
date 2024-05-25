@@ -25,17 +25,29 @@
 
 body {
   color: rgb(2 44 34);
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      var(--background-end-rgb)
-    )
-    var(--background-start-rgb);
+      var(--background-end-rgb)) var(--background-start-rgb);
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .faq-section {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .faq-question {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .faq-answer {
+    font-size: 0.875rem;
+    font-weight: 400;
   }
 
   .progress-bar {
@@ -72,7 +84,8 @@ body {
   }
 
   .main-content {
-    margin-top: 4rem; /* Adjust based on the height of your header */
+    margin-top: 4rem;
+    /* Adjust based on the height of your header */
   }
 
   .truncate {
