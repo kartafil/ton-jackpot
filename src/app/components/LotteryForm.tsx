@@ -4,10 +4,9 @@ import { Address, Cell, beginCell, toNano } from 'ton';
 import { LOTTERY_MASTER_CA, CREATE_LOTTERY_OP } from '@/const';
 
 const LotteryForm = () => {
-  const [minimalBet, setMinimalBet] = useState(0.2);
-  const [targetTotalBet, setTargetTotalBet] = useState(1);
-  const [lotteryDuration, setLotteryDuration] = useState(4);
-  const [durationUnit, setDurationUnit] = useState("hours");
+  const [minimalBet, setMinimalBet] = useState(5);
+  const [targetTotalBet, setTargetTotalBet] = useState(50);
+  const [lotteryDuration, setLotteryDuration] = useState(2);
   const [contractAddress, setContractAddress] = useState("");
   const [nftAddress, setNftAddress] = useState("");
 
@@ -27,12 +26,7 @@ const LotteryForm = () => {
 
   const sendCreateLottery = async () => {
     try {
-      let durationInSeconds = lotteryDuration;
-      if (durationUnit === "hours") {
-        durationInSeconds *= 3600;
-      } else if (durationUnit === "days") {
-        durationInSeconds *= 86400;
-      }
+      let durationInSeconds = lotteryDuration * 86400;
 
       const message = beginCell()
         .storeUint(CREATE_LOTTERY_OP, 32)
@@ -132,37 +126,15 @@ const LotteryForm = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="lotteryDuration" className="mb-2">Продолжительность лотереи:</label>
+            <label htmlFor="lotteryDuration" className="mb-2">Продолжительность лотереи: {'(в днях)'}</label>
             <input
               type="number"
               id="lotteryDuration"
               className="border border-gray-300 p-2 rounded text-black"
               value={lotteryDuration}
               onChange={(e) => setLotteryDuration(Number(e.target.value))}
-              min={durationUnit === "hours" ? 4 : 1} max={durationUnit === "hours" ? 168 : 7}
+              min="1" max="7"
             />
-            <div className="flex items-center mt-2 space-x-4">
-              <label>
-                <input
-                  type="radio"
-                  name="durationUnit"
-                  value="hours"
-                  checked={durationUnit === "hours"}
-                  onChange={(e) => setDurationUnit(e.target.value)}
-                />
-                Часы
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="durationUnit"
-                  value="days"
-                  checked={durationUnit === "days"}
-                  onChange={(e) => setDurationUnit(e.target.value)}
-                />
-                Дни
-              </label>
-            </div>
           </div>
           <button type="submit" className="mt-4 bg-cyan-800 text-white px-4 py-2 rounded">
             Создать Лотерею
