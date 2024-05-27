@@ -11,7 +11,7 @@ const LotteryGrid = () => {
   const [isLocalLoaded, setLocalLoaded] = useState(false);
   const [loadedCount, setLoadedCount] = useState<number>(0);
 
-  const LOAD_STEP = 10;
+  const LOAD_STEP = 20;
   const isFetching = useRef<boolean>(false); // Ref to track fetching state
 
   const loadMoreLotteries = async () => {
@@ -38,11 +38,11 @@ const LotteryGrid = () => {
         setLotteries(prev => [...prev, ...newLotteries]);
         setLoadedCount(prev => prev + newLotteries.length);
 
-        if (newLotteries.length < 3) {
-          const localLotteries = await getLocalLotteryInfo();
-          setLotteries(prev => [...prev, ...localLotteries]);
-          setLoadedCount(prev => prev + localLotteries.length);
-        }
+        // if (newLotteries.length < 3) {
+        //   const localLotteries = await getLocalLotteryInfo();
+        //   setLotteries(prev => [...prev, ...localLotteries]);
+        //   setLoadedCount(prev => prev + localLotteries.length);
+        // }
       } else if (!isLocalLoaded) {
         setLocalLoaded(true);
         const localLotteries = await getLocalLotteryInfo();
