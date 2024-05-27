@@ -57,6 +57,12 @@ export const getLotteryContractAddresses = async (limit: number = 10) => {
     return addresses;
 };
 
+export const getDfcLotteryContractAddresses = async (limit: number = 10) => {
+    // Placeholder function, implementation needed.
+    // Fetch the DFC lottery addresses from the appropriate endpoint.
+    return []; // Return an empty array for now.
+};
+
 export const getNftPreview = async (address: string) => {
     const url = new URL(`${TON_API_URL_NFTS}/${encodeURIComponent(address)}`);
     
@@ -96,4 +102,8 @@ export const getLotteryInfo = async (address: string) => {
 
 export const getLocalLotteryInfo = async () => {
     return localLotteries;
+};
+
+export const getLocalDfcLotteryInfo = async () => {
+    return [];
 };
