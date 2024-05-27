@@ -10,7 +10,7 @@ interface TonConnectProviderProps {
 
 const TonConnectProvider = ({ children }: TonConnectProviderProps) => {
   return (
-    <TonConnectUIProvider manifestUrl="https://raw.githubusercontent.com/kartafil/ton-jackpot/main/manifest.json">
+    <TonConnectUIProvider actionsConfiguration={{ returnStrategy: 'back', twaReturnUrl: 'https://happy-lottery.com' }} manifestUrl="https://raw.githubusercontent.com/kartafil/ton-jackpot/main/manifest.json">
       {children}
     </TonConnectUIProvider>
   );
