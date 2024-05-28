@@ -130,7 +130,7 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
       {isAvailable
         ? 
         <>
-          <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. win chance: {(+lottery.minBet / +lottery.goalPrice * 100).toFixed(2) + ' %'}</p>
+          <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet win chance: {(+lottery.minBet / +lottery.goalPrice * 100).toFixed(2) + ' %'}</p>
           <p className="m-0 max-w-[30ch] text-sm opacity-70">Ends in: {dayjs.unix(parseInt(lottery.deadline, 10)).fromNow(true)}</p>
         </>
         : !lottery.nft_address && <p className="m-0 max-w-[30ch] text-sm opacity-70">Duration: {(+lottery.duration / 3600).toFixed(2) + ' h.'}</p>
