@@ -124,11 +124,15 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
       {lottery.nft_address && renderAddress('NFT', lottery.nft_address, `https://getgems.io/nft/${lottery.nft_address || 'N/A'}`)}
       {renderAddress('Creator', lottery.creator, `https://tonviewer.com/${lottery.creator}`)}
       {lottery.winner && renderAddress('Winner', lottery.winner, `https://tonviewer.com/${lottery.winner || ''}`)}
-      <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet: {formatTON(lottery.minBet)} TON</p>
-      <p className="m-0 max-w-[30ch] text-sm opacity-70">Total bets: {formatTON(lottery.totalBets)} TON</p>
       <p className="m-0 max-w-[30ch] text-sm opacity-70">Goal: {formatTON(lottery.goalPrice)} TON</p>
+      <p className="m-0 max-w-[30ch] text-sm opacity-70">Total bets: {formatTON(lottery.totalBets)} TON</p>
+      <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. bet: {formatTON(lottery.minBet)} TON</p>
       {isAvailable
-        ?<p className="m-0 max-w-[30ch] text-sm opacity-70">Ends in: {dayjs.unix(parseInt(lottery.deadline, 10)).fromNow(true)}</p>
+        ? 
+        <>
+          <p className="m-0 max-w-[30ch] text-sm opacity-70">Min. win chance: {(+lottery.minBet / +lottery.goalPrice * 100).toFixed(2) + ' %'}</p>
+          <p className="m-0 max-w-[30ch] text-sm opacity-70">Ends in: {dayjs.unix(parseInt(lottery.deadline, 10)).fromNow(true)}</p>
+        </>
         : !lottery.nft_address && <p className="m-0 max-w-[30ch] text-sm opacity-70">Duration: {(+lottery.duration / 3600).toFixed(2) + ' h.'}</p>
       }
       <div className="w-full bg-gray-200 rounded-full h-2.5 mt-3 dark:bg-gray-700">
