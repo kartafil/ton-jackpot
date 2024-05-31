@@ -70,9 +70,28 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
     };
     try {
       const result = await tonConnectUI.sendTransaction(transaction);
-      setPopupMessage({ message: 'Bet success!', isError: false });
+      setPopupMessage({ message: 'Transaction success!', isError: false });
     } catch {
-      setPopupMessage({ message: 'Bet canceled', isError: true });
+      setPopupMessage({ message: 'Transaction canceled. Check your wallet', isError: true });
+    }
+  };
+  
+  const handleRefundSubmit = async () => {
+    const transaction = {
+      validUntil: Math.floor(Date.now() / 1000) + 60, // valid for 60 seconds
+      messages: [
+        {
+          address: lottery.address,
+          amount: toNano('0.2').toString(), // amount in nanoTONs
+          payload: message.toBoc().toString('base64') // serialized message
+        }
+      ]
+    };
+    try {
+      const result = await tonConnectUI.sendTransaction(transaction);
+      setPopupMessage({ message: 'Transaction success!', isError: false });
+    } catch {
+      setPopupMessage({ message: 'Transaction canceled. Check your wallet', isError: true });
     }
   };
 
@@ -150,6 +169,11 @@ const LotteryCard: React.FC<LotteryCardProps> = ({ lottery }) => {
             className="border border-gray-300 p-2 rounded w-full"
           />
           <button onClick={handleBetSubmit} className="mt-2 bg-cyan-700 text-white p-2 w-full rounded">Bet</button>
+        </div>
+      )}
+      {!isAvailable && !lottery.isRefunded && !lottery.isFinished && (
+        <div className="mt-4">
+          <button onClick={handleRefundSubmit} className="mt-2 bg-red-700 text-white p-2 w-full rounded">Refund</button>
         </div>
       )}
       {(lottery.isFinished || lottery.isRefunded) && <div className="ml-0 max-w-[30ch] text-sm opacity-70">{lottery.isFinished ? 'FINISHED' : 'REFUNDED'}</div>}
