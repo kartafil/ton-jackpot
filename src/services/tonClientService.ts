@@ -13,7 +13,7 @@ let lastTransactionLT: number | null = null;
 
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const fetchWithRetry = async (fetchFunction: () => Promise<any>, retries: number = 5, delayTime: number = 2000) => {
+const fetchWithRetry = async (fetchFunction: () => Promise<any>, retries: number = 15, delayTime: number = 2000) => {
     for (let attempt = 0; attempt < retries; attempt++) {
         try {
             return await fetchFunction();
